@@ -15,7 +15,12 @@ class SearchLibros extends Component
     public function render()
     {
         $libros = $this -> searchTerm
-        ? libros::where('titulo', 'LIKE', "$this->searchTerm") -> paginate(10)
+        ? libros::where('titulo', 'LIKE', "$this->searchTerm") 
+        -> orwhere('clasificacion', 'LIKE', "$this->searchTerm") 
+        -> orwhere('isbn', 'LIKE', "$this->searchTerm")
+        -> orwhere('editorial', 'LIKE', "$this->searchTerm")
+        -> orwhere('autor', 'LIKE', "$this->searchTerm")
+        -> paginate(10)
         : libros::paginate(10);
         return view('livewire.search-libros', ['libros' => $libros]);
     }
